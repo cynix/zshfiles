@@ -23,7 +23,7 @@ zstyle ':completion:*:(mv|cp|scp|rm|diff|pkill):*' ignore-line other
 ZSH_DOTDIR=${ZDOTDIR:-$HOME}
 ZSH_ETCDIR=$(dirname $(strings $SHELL | grep -E '^/.+/zshenv' || strings $0 | grep -E '^/.+/zshenv'))
 
-[[ -d $ZSH_DOTDIR/.zsh ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
+[[ -d $ZSH_DOTDIR/.zsh/antigen ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
 
 if [ ! -e $ZSHFILES/antigen/antigen.zsh ]; then
   if [[ ! -d $ZSHFILES ]]; then
