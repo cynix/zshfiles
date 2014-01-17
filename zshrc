@@ -15,6 +15,7 @@ autoload -Uz compinit && compinit
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' group-name ''
+zstyle ':completion:*' single-ignored show
 
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:(mv|cp|scp|rm|diff|pkill):*' ignore-line other
