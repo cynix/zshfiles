@@ -67,6 +67,7 @@ unset HISTORY_SUBSTRING_SEARCH_ANYWHERE
 [[ -e $ZSHFILES/aliases.sh ]] && source $ZSHFILES/aliases.sh
 command ls $ZSHFILES/lib/*.sh >/dev/null 2>&1 && source $ZSHFILES/lib/*.sh
 
+[[ -e $ZSH_ETCDIR/zshrc.local ]] && source $ZSH_ETCDIR/zshrc.local
 [[ -e $ZSH_DOTDIR/.zshrc.local ]] && source $ZSH_DOTDIR/.zshrc.local
 command ls $ZSHFILES/local/*.sh >/dev/null 2>&1 && source $ZSHFILES/local/*.sh
 [[ $ZSHFILES != $ZSH_DOTDIR/.zsh ]] && command ls $ZSH_DOTDIR/.zsh/local/*.sh >/dev/null 2>&1 && source $ZSH_DOTDIR/.zsh/local/*.sh
