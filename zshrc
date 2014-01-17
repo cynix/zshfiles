@@ -21,7 +21,7 @@ zstyle ':completion:*:(mv|cp|scp|rm|diff|pkill):*' ignore-line other
 
 # TODO: find a more reliable, non-hacky way to get these
 ZSH_DOTDIR=${ZDOTDIR:-$HOME}
-ZSH_ETCDIR=$(dirname $(strings $SHELL | grep -E '^/.+/zshenv' | head))
+ZSH_ETCDIR=$(dirname $(strings $SHELL | grep -E '^/.+/zshenv' || strings $0 | grep -E '^/.+/zshenv'))
 
 [[ -d $ZSH_DOTDIR/.zsh ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
 
