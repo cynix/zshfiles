@@ -1,14 +1,25 @@
+zmodload -a zsh/mapfile mapfile
+zmodload -a zsh/pcre pcre
+zmodload -a zsh/zle zle
+
+bindkey -v
+
 HISTSIZE=10000
 SAVEHIST=10000
 
 export PAGER=less
 export EDITOR=vim
 
-unsetopt correct_all
-setopt correct
-setopt complete_aliases
-setopt inc_append_history extended_history hist_ignore_space hist_ignore_all_dups no_share_history
-setopt no_no_match
+setopt auto_cd auto_pushd chase_links pushd_ignore_dups pushd_to_home
+setopt list_packed list_rows_first list_types
+setopt equals extended_glob multibyte no_nomatch rematch_pcre
+setopt correct no_correct_all
+setopt extended_history hist_fcntl_lock hist_ignore_all_dups hist_ignore_space hist_reduce_blanks hist_verify inc_append_history no_share_history
+setopt no_flow_control print_exit_value short_loops
+setopt no_bg_nice no_check_jobs no_hup notify
+setopt transient_rprompt
+setopt c_bases c_precedences function_argzero multios
+setopt combining_chars
 
 autoload -Uz compinit && compinit
 
