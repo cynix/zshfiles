@@ -7,6 +7,7 @@ bindkey -v
 HISTSIZE=10000
 SAVEHIST=10000
 
+export LANG='en_US.UTF-8'
 export PAGER=less
 export EDITOR=vim
 
