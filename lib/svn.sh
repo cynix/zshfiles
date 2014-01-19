@@ -45,3 +45,5 @@ function svn()
     ;;
   esac
 }
+
+compdef _subversion svn
