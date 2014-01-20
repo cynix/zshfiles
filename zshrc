@@ -60,10 +60,6 @@ setopt combining_chars
 
 PROMPT='%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[blue]%}%B%4(c:.../:)%3c%b%{$reset_color%} $(git_prompt_info)$(svn_prompt_info)%(!.#.$) '
 
-bindkey -v
-
-bindkey "\e[A" history-substring-search-up
-bindkey "\e[B" history-substring-search-down
 unset HISTORY_SUBSTRING_SEARCH_ANYWHERE
 
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
