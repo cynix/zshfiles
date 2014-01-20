@@ -64,9 +64,6 @@ PROMPT='%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[blue]%}%B%4(c:.../:)%3c%b%{
 
 unset HISTORY_SUBSTRING_SEARCH_ANYWHERE
 
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path $ZSH_DOTDIR/.zsh/cache
-
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' ignore-parents parent pwd
