@@ -8,3 +8,4 @@ bindkey '\e[A'  history-substring-search-up
 bindkey '\e[B'  history-substring-search-down
 bindkey '\e[C'  forward-char
 bindkey '\e[D'  backward-char
+bindkey '^q'    push-line-or-edit
