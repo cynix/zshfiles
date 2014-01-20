@@ -9,19 +9,21 @@ export LANG='en_US.UTF-8'
 export PAGER=less
 export EDITOR=vim
 
-# TODO: find a more reliable, non-hacky way to get these
-ZSH_DOTDIR=${ZDOTDIR:-$HOME}
-ZSH_ETCDIR=$(dirname $(strings $SHELL | grep -E '^/.+/zshenv' || strings $0 | grep -E '^/.+/zshenv'))
+if [[ -z "$ZSHFILES" ]]; then
+  # TODO: find a more reliable, non-hacky way to get these
+  ZSH_DOTDIR=${ZDOTDIR:-$HOME}
+  ZSH_ETCDIR=$(dirname $(strings ${${0#-}:c:A} 2>/dev/null | grep -E '^/.+/zshenv'))
 
-[[ -d $ZSH_DOTDIR/.zsh/antigen ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
+  [[ -d $ZSH_DOTDIR/.zsh/antigen ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
 
-if [ ! -e $ZSHFILES/antigen/antigen.zsh ]; then
-  if [[ ! -d $ZSHFILES ]]; then
-    echo "~/.zsh or $GLOBAL_RC_DIR/zshfiles not found"
-  else
-    echo "$ZSHFILES/antigen not initialised"
+  if [ ! -e $ZSHFILES/antigen/antigen.zsh ]; then
+    if [[ ! -d $ZSHFILES ]]; then
+      echo "$ZSH_DOTDIR/.zsh or $ZSH_ETCDIR/zshfiles not found"
+    else
+      echo "$ZSHFILES/antigen not initialised"
+    fi
+    exit
   fi
-  exit
 fi
 
 source $ZSHFILES/antigen/antigen.zsh
