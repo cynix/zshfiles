@@ -90,11 +90,11 @@ zstyle ':completion:*:*:(mv|cp|scp|rm|diff|pkill):*' ignore-line other
 zstyle ':completion:*:*:vim:*:*files' ignored-patterns '*?.class' '*?.ctxt' '*?.dvi' '*?.aux' '*?.log' '*?.ps' '*?.pdf' '*?.jpg' '*?.png'
 
 [[ -e $ZSHFILES/aliases.sh ]] && source $ZSHFILES/aliases.sh
-command ls $ZSHFILES/lib/*.sh >/dev/null 2>&1 && source $ZSHFILES/lib/*.sh
+command ls $ZSHFILES/lib/*.sh >/dev/null 2>&1 && for i in $ZSHFILES/lib/*.sh; do source $i; done
 
 [[ -e $ZSH_ETCDIR/zshrc.local ]] && source $ZSH_ETCDIR/zshrc.local
 [[ -e $ZSH_DOTDIR/.zshrc.local ]] && source $ZSH_DOTDIR/.zshrc.local
-command ls $ZSHFILES/local/*.sh >/dev/null 2>&1 && source $ZSHFILES/local/*.sh
-[[ $ZSHFILES != $ZSH_DOTDIR/.zsh ]] && command ls $ZSH_DOTDIR/.zsh/local/*.sh >/dev/null 2>&1 && source $ZSH_DOTDIR/.zsh/local/*.sh
+command ls $ZSHFILES/local/*.sh >/dev/null 2>&1 && for i in $ZSHFILES/local/*.sh; do source $i; done
+[[ $ZSHFILES != $ZSH_DOTDIR/.zsh ]] && command ls $ZSH_DOTDIR/.zsh/local/*.sh >/dev/null 2>&1 && for i in $ZSH_DOTDIR/.zsh/local/*.sh; do source $i; done
 
 # vim: set ft=zsh ts=2 sts=0 sw=2 et
