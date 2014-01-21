@@ -60,7 +60,7 @@ setopt no_bg_nice no_check_jobs no_hup notify
 setopt c_bases c_precedences function_argzero multios
 setopt combining_chars
 
-PROMPT='%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[blue]%}%B%4(c:.../:)%3c%b%{$reset_color%} $(git_prompt_info)$(svn_prompt_info)%(!.#.$) '
+PROMPT='%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[blue]%}%B%4(c:.../:)%3c%b%{$reset_color%} $(git_prompt_info)%(!.#.$) '
 RPROMPT='%(?..%B%{$fg[red]%}[%?]%{$reset_color%}%b )[%D{%F} %*]'
 
 unset HISTORY_SUBSTRING_SEARCH_ANYWHERE
