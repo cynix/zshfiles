@@ -50,7 +50,7 @@ antigen theme clean
 
 antigen apply
 
-setopt auto_cd auto_pushd chase_links pushd_ignore_dups pushd_to_home
+setopt auto_cd auto_pushd pushd_ignore_dups pushd_to_home
 setopt list_packed list_rows_first list_types
 setopt equals extended_glob multibyte no_nomatch rematch_pcre
 setopt correct no_correct_all
