@@ -12,7 +12,7 @@ export EDITOR=vim
 if [[ -z "$ZSHFILES" ]]; then
   # TODO: find a more reliable, non-hacky way to get these
   ZSH_DOTDIR=${ZDOTDIR:-$HOME}
-  ZSH_ETCDIR=$(dirname $(strings ${${0#-}:c:A} 2>/dev/null | grep -E '^/.+/zshenv'))
+  ZSH_ETCDIR=$(dirname $(strings ${${${funcfiletrace[-1]#-}%:*}:c:A} 2>/dev/null | grep -E '^/.+/zshenv'))
 
   [[ -d $ZSH_DOTDIR/.zsh/antigen ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
 
