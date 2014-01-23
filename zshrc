@@ -1,5 +1,5 @@
 zmodload -a zsh/mapfile mapfile
-zmodload -a zsh/pcre pcre
+zmodload zsh/pcre
 zmodload -a zsh/zle zle
 
 HISTSIZE=10000
