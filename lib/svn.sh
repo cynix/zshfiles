@@ -8,13 +8,20 @@ function svn()
   local cmd=$1
   shift
 
+  local use_colordiff=0
+  which colordiff >/dev/null 2>&1 && use_colordiff=1
+
   case "${cmd}" in
     "status"|"stat"|"st")
       command svn ${cmd} --ignore-externals $@ | egrep -v '^\s*X' | perl -pe "s/^\\?.*$/\e[1;34m$&\e[m/; s/^!.*$/\e[1;31m$&\e[m/; s/^A.*$/\e[1;32m$&\e[m/; s/^M.*$/\e[1;33m$&\e[m/; s/^D.*$/\e[0;31m$&\e[m/"
     ;;
 
     "diff"|"di"|"d")
-      command svn diff $@ | colordiff | less -RF
+      if [[ $use_colordiff == 1 ]]; then
+        command svn diff $@ | colordiff | less -RF
+      else
+        command svn diff $@ | less -RF
+      fi
     ;;
 
     "update"|"up")
@@ -47,3 +54,5 @@ function svn()
 }
 
 compdef _subversion svn
+
+# vim: set ft=zsh ts=2 sts=0 sw=2 et
