@@ -32,6 +32,9 @@ COMPLETION_WAITING_DOTS=true
 
 antigen use oh-my-zsh
 
+# Override options set by oh-my-zsh/lib/grep.zsh (not supported on all platforms)
+export GREP_OPTIONS='--color=auto'
+
 antigen bundles <<ENDBUNDLES
   brew
   bundler
