@@ -1,13 +1,10 @@
 bindkey -v
 
-autoload termcap
-
-bindkey '\e[1~' beginning-of-line
-bindkey '\e[2~' overwrite-mode
-bindkey '\e[3~' delete-char
-bindkey '\e[4~' end-of-line
-bindkey "${termcap[ku]}" history-substring-search-up
-bindkey "${termcap[kd]}" history-substring-search-down
-bindkey "${termcap[kr]}" forward-char
-bindkey "${termcap[kl]}" backward-char
-bindkey '^q'    push-line-or-edit
+bindkey "${terminfo[khome]}" beginning-of-line
+bindkey "${terminfo[kdch1]}" delete-char
+bindkey "${terminfo[kend]}"  end-of-line
+bindkey "${terminfo[kcuu1]}" history-substring-search-up
+bindkey "${terminfo[kcud1]}" history-substring-search-down
+bindkey "${terminfo[kcuf1]}" forward-char
+bindkey "${terminfo[kcub1]}" backward-char
+bindkey '^q'                 push-line-or-edit
