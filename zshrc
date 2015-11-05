@@ -35,7 +35,7 @@ antigen use oh-my-zsh
 antigen bundles <<ENDBUNDLES
   brew
   bundler
-  colored-man
+  colored-man-pages
   compleat
   cynix/zsh-history-substring-search
   cynix/zsh-svn
