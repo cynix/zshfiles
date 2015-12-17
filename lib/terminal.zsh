@@ -35,7 +35,7 @@ set-tab-title() {
 }
 
 _terminal-get-title-prefix() {
-	[[ -n $SSH_TTY  ]] && echo "${HOSTNAME}:"
+	[[ -n $SSH_TTY  ]] && echo "${(%):-%m}:"
 }
 
 # Sets the tab and window titles with a given command.
@@ -62,9 +62,6 @@ _terminal-set-titles-with-command() {
 		local cmd="${${2[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]}:t}"
 		local truncated_cmd="${cmd/(#m)?(#c15,)/${MATCH[1,12]}...}"
 		unset MATCH
-
-		local prefix=""
-		[[ -n $SSH_TTY ]] && prefix="${HOSTNAME}:"
 
 		set-window-title "$(_terminal-get-title-prefix)${cmd}"
 		set-tab-title "$(_terminal-get-title-prefix)${truncated_cmd}"
