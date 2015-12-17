@@ -40,9 +40,10 @@ zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting', nice:17
 zplug 'cynix/zsh-history-substring-search', nice:18
 
-export LP_ENABLE_BATT=0
-export LP_ENABLE_PROXY=0
-export LP_ENABLE_TEMP=0
+LP_ENABLE_BATT=0
+LP_ENABLE_PROXY=0
+LP_ENABLE_TEMP=0
+LP_ENABLE_VCS_ROOT=1
 zplug 'nojhan/liquidprompt', nice:19
 
 zplug "$ZSHFILES/lib", from:local
