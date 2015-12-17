@@ -12,7 +12,7 @@ export LANG='en_US.UTF-8'
 export PAGER='less'
 (( $+commands[vim] )) && export EDITOR='vim' || export EDITOR='vi'
 
-typeset -gU cdpath fpath path
+typeset -gU cdpath fpath manpath path
 
 export ZSHFILES="${${(%):-%N}:A:h}"
 export ZSH_DOTDIR="${ZDOTDIR:-$HOME}"
