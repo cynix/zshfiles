@@ -1,100 +1,56 @@
-zmodload -a zsh/mapfile mapfile
-zmodload zsh/pcre
-zmodload -a zsh/zle zle
-
-HISTSIZE=10000
-SAVEHIST=10000
-
-export LANG='en_US.UTF-8'
-export PAGER=less
-export EDITOR=vim
-
-if [[ -z "$ZSHFILES" ]]; then
-  # TODO: find a more reliable, non-hacky way to get these
-  ZSH_DOTDIR=${ZDOTDIR:-$HOME}
-  ZSH_ETCDIR=$(dirname $(strings ${${${funcfiletrace[-1]#-}%:*}:c:A} 2>/dev/null | grep -E '^/.+/zshenv'))
-
-  [[ -d $ZSH_DOTDIR/.zsh/antigen ]] && ZSHFILES=$ZSH_DOTDIR/.zsh || ZSHFILES=$ZSH_ETCDIR/zshfiles
-
-  if [ ! -e $ZSHFILES/antigen/antigen.zsh ]; then
-    if [[ ! -d $ZSHFILES ]]; then
-      echo "$ZSH_DOTDIR/.zsh or $ZSH_ETCDIR/zshfiles not found"
-    else
-      echo "$ZSHFILES/antigen not initialised"
-    fi
-    exit
-  fi
-fi
-
-source $ZSHFILES/antigen/antigen.zsh
-
-COMPLETION_WAITING_DOTS=true
-
-antigen use oh-my-zsh
-
-antigen bundles <<ENDBUNDLES
-  brew
-  bundler
-  colored-man-pages
-  compleat
-  cynix/zsh-history-substring-search
-  cynix/zsh-svn
-  dircycle
-  git
-  git-extras
-  pip
-  zsh-users/zsh-syntax-highlighting
-ENDBUNDLES
-
-antigen theme clean
-
-antigen apply
-
-setopt auto_cd auto_pushd pushd_ignore_dups pushd_to_home
-setopt list_packed list_rows_first list_types
-setopt equals extended_glob multibyte no_nomatch rematch_pcre
-setopt correct no_correct_all
-setopt extended_history hist_fcntl_lock hist_ignore_all_dups hist_ignore_space hist_reduce_blanks hist_verify inc_append_history no_share_history
-setopt no_flow_control short_loops
+setopt auto_cd
+setopt short_loops
 setopt no_bg_nice no_check_jobs no_hup notify
 setopt c_bases c_precedences function_argzero multios
-setopt combining_chars
 
-PROMPT='%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[blue]%}%B%5(~:%-1~.../%2~:%~)%b%{$reset_color%} $(git_prompt_info)%(!.#.$) '
-RPROMPT='%(?..%B%{$fg[red]%}[%?]%{$reset_color%}%b )[%D{%F} %*]'
+zmodload -i zsh/zle
+zmodload -i zsh/zutil
+zmodload -ab zsh/mapfile mapfile
+zmodload -ab zsh/pcre pcre_compile pcre_study pcre_match
 
-unset HISTORY_SUBSTRING_SEARCH_ANYWHERE
+export LANG='en_US.UTF-8'
+export PAGER='less'
+(( $+commands[vim] )) && export EDITOR='vim' || export EDITOR='vi'
 
-zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' ignore-parents parent pwd
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
-zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
-zstyle -d ':completion:*' users
-zstyle ':completion:*' verbose yes
-zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
-zstyle ':completion:*:default' list-packed true
-zstyle ':completion:*:descriptions' format '%B%d%b'
-zstyle ':completion:*:functions' ignored-patterns '_*'
-zstyle ':completion:*:messages' format '%d'
-zstyle ':completion:*:warnings' format 'No matches for: %d'
-zstyle -e ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/2 )) numeric )'
-zstyle ':completion:*:expand:*' tag-order all-expansions
-zstyle ':completion:*:scp:*' group-order files all-files users hosts-domain hosts-host hosts-ipaddr
-zstyle ':completion:*:scp:*' tag-order files users 'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'
-zstyle ':completion:*:ssh:*' group-order hosts-domain hosts-host users hosts-ipaddr
-zstyle ':completion:*:ssh:*' tag-order users 'hosts:-host hosts:-domain:domain hosts:-ipaddr"IP\ Address *'
-zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
-zstyle ':completion:*:*:(mv|cp|scp|rm|diff|pkill):*' ignore-line other
-zstyle ':completion:*:*:vim:*:*files' ignored-patterns '*?.class' '*?.ctxt' '*?.dvi' '*?.aux' '*?.log' '*?.ps' '*?.pdf' '*?.jpg' '*?.png'
+typeset -gU cdpath fpath path
 
-[[ -e $ZSHFILES/aliases.sh ]] && source $ZSHFILES/aliases.sh
-command ls $ZSHFILES/lib/*.sh >/dev/null 2>&1 && for i in $ZSHFILES/lib/*.sh; do source $i; done
+export ZSHFILES="${${(%):-%N}:A:h}"
+export ZSH_DOTDIR="${ZDOTDIR:-$HOME}"
+export ZSH_ETCDIR="${${(%):-%N}:h}"
+export ZPLUG_HOME="${ZPLUG_HOME:-$HOME/.zplug}"
 
-[[ -e $ZSH_ETCDIR/zshrc.local ]] && source $ZSH_ETCDIR/zshrc.local
-[[ -e $ZSH_DOTDIR/.zshrc.local ]] && source $ZSH_DOTDIR/.zshrc.local
-command ls $ZSHFILES/local/*.sh >/dev/null 2>&1 && for i in $ZSHFILES/local/*.sh; do source $i; done
-[[ $ZSHFILES != $ZSH_DOTDIR/.zsh ]] && command ls $ZSH_DOTDIR/.zsh/local/*.sh >/dev/null 2>&1 && for i in $ZSH_DOTDIR/.zsh/local/*.sh; do source $i; done
+if [[ ! -e $ZPLUG_HOME/zplug ]]; then
+	if [[ ! -e $ZSHFILES/vendor/zplug/zplug && -d $ZSHFILES/.git ]] && (( $+commands[git] )); then
+		pushd "$ZSHFILES" > /dev/null
+		git submodule update --init --recursive
+		popd > /dev/null
+	fi
 
-# vim: set ft=zsh ts=2 sts=0 sw=2 et
+	source "$ZSHFILES/vendor/zplug/zplug"
+	zplug update --self
+fi
+
+source "$ZPLUG_HOME/zplug"
+
+zplug 'b4b4r07/zplug'
+
+zplug 'b4b4r07/enhancd', of:enhancd.sh, if:"which fzf || which pick || which gof"
+zplug 'rimraf/k', of:k.sh
+zplug 'zsh-users/zsh-completions'
+zplug 'zsh-users/zsh-syntax-highlighting', nice:17
+zplug 'cynix/zsh-history-substring-search', nice:18
+
+export LP_ENABLE_BATT=0
+export LP_ENABLE_PROXY=0
+export LP_ENABLE_TEMP=0
+zplug 'nojhan/liquidprompt', nice:19
+
+zplug "$ZSHFILES/lib", from:local
+[[ -d $ZSHFILES/local ]] && zplug "$ZSHFILES/local", from:local
+[[ $ZSHFILES != $ZSH_DOTDIR/.zsh && -d $ZSH_DOTDIR/.zsh/local ]] && zplug "$ZSH_DOTDIR/.zsh/local", from:local
+
+zplug check || zplug install
+[[ -z $ZPLUG_NO_AUTO_LOAD ]] && zplug load
+
+[[ $ZSH_ETCDIR != $ZSH_DOTDIR && -e $ZSH_ETCDIR/zshrc.local ]] && source "$ZSH_ETCDIR/zshrc.local"
+[[ -e $ZSH_DOTDIR/.zshrc.local ]] && source "$ZSH_DOTDIR/.zshrc.local"
