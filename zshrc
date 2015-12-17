@@ -55,3 +55,5 @@ zplug check || zplug install
 
 [[ $ZSH_ETCDIR != $ZSH_DOTDIR && -e $ZSH_ETCDIR/zshrc.local ]] && source "$ZSH_ETCDIR/zshrc.local"
 [[ -e $ZSH_DOTDIR/.zshrc.local ]] && source "$ZSH_DOTDIR/.zshrc.local"
+
+typeset -f cd::cd >/dev/null && compdef _cd cd::cd
