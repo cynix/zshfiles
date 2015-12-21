@@ -13,5 +13,6 @@ fi
 alias x='exit'
 alias l='ls -A'
 alias ll='ls -la'
+alias less='less -R'
 alias v='vim'
 alias tm='tmux attach || tmux new'
