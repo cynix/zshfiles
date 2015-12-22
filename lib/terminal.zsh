@@ -10,10 +10,14 @@ if [[ "$TERM" == (dumb|linux|*bsd*|eterm*) ]]; then
 	return 1
 fi
 
+if [[ -n $SSH_TTY ]] || ( (( $+commands[sysctl] )) && (( $(sysctl -in security.jail.jailed) )) ); then
+	_TERMINAL_HOSTNAME="${(%):-%m}:"
+fi
+
 # Sets the terminal or terminal multiplexer window title.
 set-window-title() {
 	local title_format{,ted}
-	zstyle -s ':prezto:module:terminal:window-title' format 'title_format' || title_format="%s"
+	zstyle -s ':terminal:window-title' format 'title_format' || title_format="%s"
 	zformat -f title_formatted "$title_format" "s:$argv"
 
 	if [[ "$TERM" == screen* ]]; then
@@ -28,14 +32,10 @@ set-window-title() {
 # Sets the terminal tab title.
 set-tab-title() {
 	local title_format{,ted}
-	zstyle -s ':prezto:module:terminal:tab-title' format 'title_format' || title_format="%s"
+	zstyle -s ':terminal:tab-title' format 'title_format' || title_format="%s"
 	zformat -f title_formatted "$title_format" "s:$argv"
 
 	printf "\e]1;%s\a" ${(V%)title_formatted}
-}
-
-_terminal-get-title-prefix() {
-	[[ -n $SSH_TTY  ]] && echo "${(%):-%m}:"
 }
 
 # Sets the tab and window titles with a given command.
@@ -63,8 +63,8 @@ _terminal-set-titles-with-command() {
 		local truncated_cmd="${cmd/(#m)?(#c15,)/${MATCH[1,12]}...}"
 		unset MATCH
 
-		set-window-title "$(_terminal-get-title-prefix)${cmd}"
-		set-tab-title "$(_terminal-get-title-prefix)${truncated_cmd}"
+		set-window-title "${_TERMINAL_HOSTNAME}${cmd}"
+		set-tab-title "${_TERMINAL_HOSTNAME}${truncated_cmd}"
 	fi
 }
 
@@ -78,8 +78,8 @@ _terminal-set-titles-with-path() {
 	local truncated_path="${abbreviated_path/(#m)?(#c15,)/...${MATCH[-12,-1]}}"
 	unset MATCH
 
-	set-window-title "$(_terminal-get-title-prefix)$abbreviated_path"
-	set-tab-title "$(_terminal-get-title-prefix)$truncated_path"
+	set-window-title "${_TERMINAL_HOSTNAME}$abbreviated_path"
+	set-tab-title "${_TERMINAL_HOSTNAME}$truncated_path"
 }
 
 # Do not override precmd/preexec; append to the hook array.
