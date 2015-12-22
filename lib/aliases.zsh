@@ -16,3 +16,7 @@ alias ll='ls -la'
 alias less='less -R'
 alias v='vim'
 alias tm='tmux attach || tmux new'
+
+function pg {
+	pgrep ${(@)argv:#-l} | xargs -r -n1 ps -o pid= -o user= -o command= -p
+}
