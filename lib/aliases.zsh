@@ -20,3 +20,8 @@ alias tm='tmux attach || tmux new'
 function pg {
 	pgrep ${(@)argv:#-l} | xargs -r -n1 ps -o pid= -o user= -o command= -p
 }
+
+function ja {
+	local i
+	for i in $(jls jid); do jexec $i $@; done
+}
