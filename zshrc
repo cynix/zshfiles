@@ -44,7 +44,7 @@ LP_ENABLE_BATT=0
 LP_ENABLE_PROXY=0
 LP_ENABLE_TEMP=0
 LP_ENABLE_VCS_ROOT=1
-(( $+commands[sysctl] )) && (( $(sysctl -in security.jail.jailed) )) && LP_HOSTNAME_ALWAYS=1
+[[ $OSTYPE == freebsd* ]] && (( $(sysctl -in security.jail.jailed) )) && LP_HOSTNAME_ALWAYS=1
 zplug 'nojhan/liquidprompt', nice:19
 
 zplug "$ZSHFILES/lib", from:local
