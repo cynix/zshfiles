@@ -38,6 +38,8 @@ zplug 'b4b4r07/enhancd', of:enhancd.sh, if:"which fzf || which pick || which gof
 zplug 'rimraf/k', of:k.sh
 zplug 'zsh-users/zsh-completions'
 zplug 'zsh-users/zsh-syntax-highlighting', nice:17
+
+HISTORY_SUBSTRING_SEARCH_ANYWHERE=0
 zplug 'cynix/zsh-history-substring-search', nice:18
 
 LP_ENABLE_BATT=0
