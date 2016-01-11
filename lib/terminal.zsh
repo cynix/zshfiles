@@ -10,7 +10,7 @@ if [[ "$TERM" == (dumb|linux|*bsd*|eterm*) ]]; then
 	return 1
 fi
 
-if [[ -n $SSH_TTY ]] || ( (( $+commands[sysctl] )) && (( $(sysctl -in security.jail.jailed) )) ); then
+if [[ -n $SSH_TTY ]] || ( [[ $OSTYPE == freebsd* ]] && (( $(sysctl -in security.jail.jailed) )) ); then
 	_TERMINAL_HOSTNAME="${(%):-%m}:"
 fi
 
