@@ -1,9 +1,11 @@
 setopt list_packed list_rows_first list_types
 setopt equals extended_glob multibyte no_nomatch rematch_pcre
 setopt correct no_correct_all
+setopt complete_in_word always_to_end
 
 zmodload -i zsh/complist
 
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z-_}={A-Za-z_-}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' ignore-parents parent pwd
