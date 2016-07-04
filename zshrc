@@ -19,28 +19,29 @@ export ZSH_DOTDIR="${ZDOTDIR:-$HOME}"
 export ZSH_ETCDIR="${${(%):-%N}:h}"
 export ZPLUG_HOME="${ZPLUG_HOME:-$HOME/.zplug}"
 
-if [[ ! -e $ZPLUG_HOME/zplug ]]; then
-	if [[ ! -e $ZSHFILES/vendor/zplug/zplug && -d $ZSHFILES/.git ]] && (( $+commands[git] )); then
+if [[ ! -e $ZPLUG_HOME/init.zsh ]]; then
+	if [[ ! -e $ZSHFILES/vendor/zplug/init.zsh && -d $ZSHFILES/.git ]] && (( $+commands[git] )); then
 		pushd "$ZSHFILES" > /dev/null
 		git submodule update --init --recursive
 		popd > /dev/null
 	fi
 
-	source "$ZSHFILES/vendor/zplug/zplug"
+	source "$ZSHFILES/vendor/zplug/init.zsh"
 	zplug update --self
 fi
 
-source "$ZPLUG_HOME/zplug"
+source "$ZPLUG_HOME/init.zsh"
 
-zplug 'b4b4r07/zplug'
+zplug 'zplug/zplug'
 
-zplug 'b4b4r07/enhancd', of:enhancd.sh, if:"which fzf || which pick || which gof"
-zplug 'rimraf/k', of:k.sh
+zplug 'b4b4r07/enhancd', use:enhancd.sh, if:"which fzf || which pick || which gof"
+zplug 'rimraf/k', use:k.sh
 zplug 'zsh-users/zsh-completions'
-zplug 'zsh-users/zsh-syntax-highlighting', nice:17
 
 HISTORY_SUBSTRING_SEARCH_ANYWHERE=0
-zplug 'cynix/zsh-history-substring-search', nice:18
+zplug 'cynix/zsh-history-substring-search', nice:17
+
+zplug 'zsh-users/zsh-syntax-highlighting', nice:18
 
 LP_ENABLE_BATT=0
 LP_ENABLE_PROXY=0
