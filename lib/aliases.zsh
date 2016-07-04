@@ -21,6 +21,10 @@ function pg {
 	pgrep ${(@)argv:#-l} | xargs $([[ $OSTYPE =~ linux* ]] && echo '-r') -n1 ps -o pid= -o user= -o command= -p
 }
 
+function jc {
+	jexec $1 /usr/bin/login -f root
+}
+
 function ja {
 	local i
 	for i in $(jls jid); do jexec $i $@; done
