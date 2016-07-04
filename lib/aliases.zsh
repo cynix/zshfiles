@@ -18,7 +18,7 @@ alias v='vim'
 alias tm='tmux attach || tmux new'
 
 function pg {
-	pgrep ${(@)argv:#-l} | xargs -r -n1 ps -o pid= -o user= -o command= -p
+	pgrep ${(@)argv:#-l} | xargs $([[ $OSTYPE =~ linux* ]] && echo '-r') -n1 ps -o pid= -o user= -o command= -p
 }
 
 function ja {
