@@ -27,5 +27,8 @@ function jc {
 
 function ja {
 	local i
-	for i in $(jls jid); do jexec $i $@; done
+	for i in $(jls name); do
+		echo ">>> Executing '$@' in '$i'"
+		jexec $i $@
+	done
 }
