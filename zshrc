@@ -34,7 +34,7 @@ source "$ZPLUG_HOME/init.zsh"
 
 zplug 'zplug/zplug'
 
-zplug 'b4b4r07/enhancd', use:enhancd.sh, if:"which fzf || which pick || which gof"
+zplug 'b4b4r07/enhancd', use:init.sh, if:"which fzy || which fzf"
 zplug 'rimraf/k', use:k.sh
 zplug 'zsh-users/zsh-completions'
 
