@@ -19,7 +19,9 @@ export ZSH_DOTDIR="${ZDOTDIR:-$HOME}"
 export ZSH_ETCDIR="${${(%):-%N}:h}"
 export ZPLUG_HOME="${ZPLUG_HOME:-$HOME/.zplug}"
 
-if [[ ! -e $ZPLUG_HOME/init.zsh ]]; then
+if [[ -e $ZPLUG_HOME/init.zsh ]]; then
+	source "$ZPLUG_HOME/init.zsh"
+else
 	if [[ ! -e $ZSHFILES/vendor/zplug/init.zsh && -d $ZSHFILES/.git ]] && (( $+commands[git] )); then
 		pushd "$ZSHFILES" > /dev/null
 		git submodule update --init --recursive
@@ -27,28 +29,25 @@ if [[ ! -e $ZPLUG_HOME/init.zsh ]]; then
 	fi
 
 	source "$ZSHFILES/vendor/zplug/init.zsh"
-	zplug update --self
 fi
 
-source "$ZPLUG_HOME/init.zsh"
-
-zplug 'zplug/zplug'
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 zplug 'b4b4r07/enhancd', use:init.sh, if:"which fzy || which fzf"
-zplug 'rimraf/k', use:k.sh
+zplug 'supercrabtree/k'
 zplug 'zsh-users/zsh-completions'
 
 HISTORY_SUBSTRING_SEARCH_ANYWHERE=0
-zplug 'cynix/zsh-history-substring-search', nice:17
+zplug 'cynix/zsh-history-substring-search'
 
-zplug 'zsh-users/zsh-syntax-highlighting', nice:18
+zplug 'zsh-users/zsh-syntax-highlighting', defer:3
 
 LP_ENABLE_BATT=0
 LP_ENABLE_PROXY=0
 LP_ENABLE_TEMP=0
 LP_ENABLE_VCS_ROOT=1
 [[ $OSTYPE == freebsd* ]] && (( $(sysctl -in security.jail.jailed) )) && LP_HOSTNAME_ALWAYS=1
-zplug 'nojhan/liquidprompt', nice:19
+zplug 'nojhan/liquidprompt', defer:2
 
 zplug "$ZSHFILES/lib", from:local
 [[ -d $ZSHFILES/local ]] && zplug "$ZSHFILES/local", from:local
