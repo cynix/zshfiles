@@ -34,6 +34,7 @@ fi
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 zplug 'b4b4r07/enhancd', use:init.sh, if:"which fzy || which fzf"
+zplug 'gma/bundler-exec', use:bundler-exec.sh, if:'which bundle'
 zplug 'supercrabtree/k'
 zplug 'zsh-users/zsh-completions'
 
