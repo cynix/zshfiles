@@ -16,6 +16,7 @@ alias ll='ls -la'
 alias less='less -R'
 alias v='vim'
 alias tm='tmux attach || tmux new'
+alias ic='iocage console'
 
 function pg {
 	pgrep ${(@)argv:#-l} | xargs $([[ $OSTYPE =~ linux* ]] && echo '-r') -n1 ps -o pid= -o user= -o command= -p
@@ -28,7 +29,18 @@ function jc {
 function ja {
 	local i
 	for i in $(jls name); do
+		echo '=================================================='
 		echo ">>> Executing '$@' in '$i'"
+		echo '--------------------------------------------------'
 		jexec $i $@
+	done
+}
+
+jpkg () {
+	for i in $(jls name); do
+		echo '=================================================='
+		echo ">>> Executing 'pkg $@' in '$i'"
+		echo '--------------------------------------------------'
+		pkg -j $i "$@"
 	done
 }
