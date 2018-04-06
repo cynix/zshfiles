@@ -1,3 +1,21 @@
+[submodule "vendor/bundler-exec"]
+	path = vendor/bundler-exec
+	url = https://github.com/gma/bundler-exec.git
+[submodule "vendor/enhancd"]
+	path = vendor/enhancd
+	url = https://github.com/b4b4r07/enhancd.git
+[submodule "vendor/liquidprompt"]
+	path = vendor/liquidprompt
+	url = https://github.com/nojhan/liquidprompt.git
 [submodule "vendor/zplug"]
 	path = vendor/zplug
 	url = https://github.com/zplug/zplug.git
+[submodule "vendor/zsh-completions"]
+	path = vendor/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
+[submodule "vendor/zsh-history-substring-search"]
+	path = vendor/zsh-history-substring-search
+	url = https://github.com/cynix/zsh-history-substring-search.git
+[submodule "vendor/zsh-syntax-highlighting"]
+	path = vendor/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
